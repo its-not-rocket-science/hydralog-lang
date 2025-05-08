@@ -1,0 +1,15 @@
+module LPFExample {
+    input signal in;
+    output signal out;
+
+    parameter cutoff = 1000;
+
+    analog {
+        configure filter LPF {
+            type: lowpass;
+            fc: cutoff;
+        }
+        connect in -> LPF.in;
+        connect LPF.out -> out;
+    }
+}
