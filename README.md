@@ -1,5 +1,9 @@
 # Hydralog
 
+![CI](https://github.com/its-not-rocket-science/hydralog-lang/actions/workflows/ci.yml/badge.svg)
+![Coverage](https://img.shields.io/badge/coverage-dynamic-lightgrey)
+
+
 Hydralog is a domain-specific language for hybrid analog-digital programming, designed to bring structure and abstraction to analog computation and hybrid systems.
 
 ## Features
