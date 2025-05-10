@@ -1,0 +1,10 @@
+module digital_logger {
+    output int temperature;
+
+    digital {
+        task log_temperature {
+            temperature = sensor_read();
+            print(temperature);
+        }
+    }
+}

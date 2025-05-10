@@ -23,7 +23,10 @@ Hydralog is a domain-specific language for hybrid analog-digital programming, de
 ## Quick Start
 ```bash
 # Compile a Hydralog program to SPICE
-hydralogc compile --target spice examples/low_pass_filter.hyd -o out.cir
+python -m hydralogc.hydralogc compile --target spice examples/low_pass_filter.hyd -o out.cir
+
+# Compile a digital Hydralog program to C
+python -m hydralogc.hydralogc compile --target c examples/digital_logger.hyd -o out.c
 
 # Run unit tests with coverage
 PYTHONPATH=. pytest --cov=hydralogc --cov-report=term --cov-report=html

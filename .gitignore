@@ -64,3 +64,6 @@ var/
 *.spice
 .sim/
 logs/
+
+# Compiled output files
+*.c
