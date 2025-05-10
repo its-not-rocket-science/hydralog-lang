@@ -136,8 +136,6 @@ Hydralog's compiler is designed to support hybrid analog-digital targets using a
 - **Severity Levels**: Classify issues as error, warning, or info.
 - **Reporting**: All collected errors are reported together to the user before halting compilation.
 
-Semantic analysis traverses the AST to populate these structures, detect errors, and validate the program before IR generation.
-
 ### 1c. Symbol Table and Scope Model API
 
 The semantic analyzer maintains a hierarchical symbol table to support nested scopes:
@@ -152,6 +150,22 @@ The semantic analyzer maintains a hierarchical symbol table to support nested sc
   - `lookup(name)` — Finds the nearest visible declaration.
   - `enter_scope()` / `exit_scope()` — Manages nesting.
   - `report_error()` — Adds semantic errors to the error collector.
+
+### 1d. AST Node Types and Structure
+
+The parser constructs a typed AST for semantic analysis and IR generation. Proposed core node types:
+
+- `ProgramNode`: Root container for all modules.
+- `ModuleNode`: Represents a module; holds ports, parameters, components, tasks.
+- `PortNode`: Defines an input or output port.
+- `ParameterNode`: Defines a parameter with optional default value.
+- `ComponentNode`: Analog component instantiation.
+- `ConnectionNode`: Connects signals between components.
+- `TaskNode`: Digital task block with statements.
+- `StatementNode`: Abstract base for task statements (assignments, calls).
+- `ExpressionNode`: Abstract base for arithmetic or logic expressions.
+
+Each node includes attributes like `line`, `column`, `name`, `type`, and `children` for traversal and diagnostics.
 
 
 ### 2. Intermediate Representations
