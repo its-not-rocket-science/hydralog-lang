@@ -167,6 +167,44 @@ The parser constructs a typed AST for semantic analysis and IR generation. Propo
 
 Each node includes attributes like `line`, `column`, `name`, `type`, and `children` for traversal and diagnostics.
 
+### 1e. AST Traversal and Visitor Model
+
+The compiler uses a visitor pattern to traverse the AST for analysis and IR generation.
+
+- **Visitor Interface**: Defines `visit_<NodeType>` methods for all AST node types.
+- **Traversal Mechanism**: The `accept(visitor)` method is implemented by all AST nodes to dispatch to the correct visitor method.
+- **Separation of Concerns**:
+  - Semantic analysis visitor validates structure and types.
+  - IR generation visitor emits analog IR, digital IR, or event graph.
+- **Extensibility**: Additional passes (e.g., optimization, code formatting) can be added by implementing new visitors.
+
+### 1f. Semantic Analyzer Visitor Design
+
+The semantic analyzer is implemented as a visitor that walks the AST:
+
+- **visit_ProgramNode**: Initializes global symbol table.
+- **visit_ModuleNode**: Defines module in symbol table; creates new scope.
+- **visit_PortNode / visit_ParameterNode**: Defines port or parameter symbols.
+- **visit_ComponentNode**: Validates component type and parameters.
+- **visit_ConnectionNode**: Verifies connected signals exist and are compatible.
+- **visit_TaskNode**: Creates task scope; validates task name and statements.
+- **visit_StatementNode / visit_ExpressionNode**: Validates local variable references and expression types.
+- All validation errors are collected into the error collector with locations and codes.
+- Upon completion, the AST is annotated and ready for IR generation.
+
+### 1g. IR Generation Visitor Design
+
+The IR generation visitor transforms the validated AST into intermediate representations:
+
+- **visit_ProgramNode**: Initializes IR containers for analog, digital, and event graphs.
+- **visit_ModuleNode**: Defines module context and emits IR blocks.
+- **visit_PortNode / visit_ParameterNode**: Adds inputs, outputs, and parameters to the IR model.
+- **visit_ComponentNode**: Creates analog IR components and connections.
+- **visit_ConnectionNode**: Adds signal flow edges to the analog IR graph.
+- **visit_TaskNode**: Generates digital IR tasks with associated statements.
+- **visit_StatementNode / visit_ExpressionNode**: Converts statements to IR-level operations.
+
+This visitor ensures a consistent mapping from semantic-validated AST to Hydralog IR.
 
 ### 2. Intermediate Representations
 - **Analog IR**: DAG of components (e.g., amplifiers, filters) and signal flow.

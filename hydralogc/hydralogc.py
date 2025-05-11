@@ -1,4 +1,5 @@
 import argparse
+import os
 from hydralogc.lexer import tokenize
 from hydralogc.parser import parse
 from hydralogc.ir.analog_ir import AnalogIR
@@ -17,6 +18,9 @@ def main():
     parser.add_argument("-o", "--output", default="output", help="Output file")
     args = parser.parse_args()
 
+    if not os.path.exists(args.source):
+        print(f"Error: source file '{args.source}' not found.")
+        return "error"
     with open(args.source, encoding="utf-8") as f:
         code = f.read()
 
@@ -28,7 +32,7 @@ def main():
 
     if args.command == "parse":
         ast = parse(code)
-        print(ast)
+        print(ast)  # optionally replace with pretty print or AST dump
         return ast
 
     if args.command == "compile":

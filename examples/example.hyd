@@ -1,0 +1,3 @@
+module ExampleModule {
+    input analog sig_in;
+}
